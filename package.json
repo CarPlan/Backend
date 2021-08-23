@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "description": "The Backend for CarPlan",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CarPlan/Backend.git"
+  },
+  "keywords": [
+    "CarPlan"
+  ],
+  "author": "CarPlan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CarPlan/Backend/issues"
+  },
+  "homepage": "https://github.com/CarPlan/Backend#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
