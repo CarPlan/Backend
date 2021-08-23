@@ -1,0 +1,33 @@
+Backend
+- Autos
+	- ID
+	- Type
+	- TÜV Zeitpunkt
+	- Zustände
+	- Spritverbrauch
+	- Sprit
+	- Spritstand
+	- Tags
+	- Sitzplätze
+	- Vorraussetzungen auf Führerschein
+	- Zuständiger
+- Nutzer
+	- ID
+	- Name
+	- Email
+	- Passwort
+	- *Telefonnummer
+	- Erlaubnisse des Führerscheines
+	- Admin
+- Buchungen
+	- Von
+	- Bis
+	- Fahrt von
+	- Fahrt bis
+	- Nutzer
+	- Auto 
+- Nachrichten 
+	- Inhalt
+	- Sender
+	- Empfänger
+	- Email-Benachrichtigung
