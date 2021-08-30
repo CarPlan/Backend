@@ -2,6 +2,7 @@ const express = require("express");
 const pool = require("../helpers/database");
 const router = express.Router();    
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
 
 router.post("/user/get", async (req, res) => {
     if(req.body.name != null){
@@ -11,7 +12,13 @@ router.post("/user/get", async (req, res) => {
             try
             {
                 if(await bcrypt.compare(req.body.password, rows[0].password)){
-                    res.send("succses");
+                    
+                    const user = {
+                        name : req.body.name
+                    };
+                    const access = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+
+                    res.status(200).json({accessToke : access});
                     return;
                 }else{
                     res.send("not allowed");
@@ -31,8 +38,12 @@ router.post("/user/get", async (req, res) => {
             try
             {
                 if(await bcrypt.compare(req.body.password, rows[0].password)){
-                    res.send("succses");
-                    return;
+                    const user = {
+                        name : rows[0].name
+                    };
+                    const access = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+
+                    res.status(200).json({accessToke : access});
                 }else{
                     res.send("not allowed");
                     return;

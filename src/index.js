@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 
 dotenv.config({path: ".env-local"});
 
+
 const port =  process.env.PORT || 3001;
 
 
@@ -21,7 +22,16 @@ app.get('/', (req, res) => {
 
 const userRouter = require("./routes/user");
 
+
+//TODO : requier
+import JWT_HELPER from './helpers/jwt_helper'; 
+import Test from './routes/test'; 
+
 app.use("/api", userRouter);
+
+app.use("/test", JWT_HELPER);
+
+app.use("/test", Test);
 
 app.get('/api/user', (req, res) => {
     console.log(req.body);
