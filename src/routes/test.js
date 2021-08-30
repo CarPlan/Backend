@@ -10,3 +10,5 @@ router.get("/auth", (req, res) => {
 
     else res.status(200).send(req.user);
 })
+
+module.exports = router;

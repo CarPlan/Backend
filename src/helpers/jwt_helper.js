@@ -2,10 +2,12 @@ const jwt = require('jsonwebtoken');
 
 function authenticateToke(req, res, next) {
     const authHeader = req.headers['authorization'];
+    console.log(authHeader);
     if(authHeader != null){
         const token = authHeader.split(' ')[1];
         if(token == null){
             res.sendStatus(401);
+            return;
         }
 
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
@@ -13,8 +15,11 @@ function authenticateToke(req, res, next) {
                 res.sendStatus(403);
             req.user = user;
             next();
+            return;
         });
     }
+
+    res.sendStatus(403);
 }
 
-export default authenticateToke;
+module.exports = authenticateToke;

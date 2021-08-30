@@ -22,16 +22,12 @@ app.get('/', (req, res) => {
 
 const userRouter = require("./routes/user");
 
-
-//TODO : requier
-import JWT_HELPER from './helpers/jwt_helper'; 
-import Test from './routes/test'; 
+const JWT_HELPER = require('./helpers/jwt_helper'); 
+const Test = require('./routes/test'); 
 
 app.use("/api", userRouter);
 
-app.use("/test", JWT_HELPER);
-
-app.use("/test", Test);
+app.use("/test", JWT_HELPER, Test);
 
 app.get('/api/user', (req, res) => {
     console.log(req.body);

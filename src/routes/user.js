@@ -26,10 +26,13 @@ router.post("/user/get", async (req, res) => {
                 }
 
             }catch (err) {
+                console.log(err);
                 res.status(500).send();
+                return;
             }
         }else{
             res.status(400).send("User does not exisit");
+            return;
         }
     }else if(req.body.email != null){
         const querry = "SELECT id, email, password, created_at FROM user WHERE email=?";
@@ -44,16 +47,20 @@ router.post("/user/get", async (req, res) => {
                     const access = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
 
                     res.status(200).json({accessToke : access});
+                    return;
                 }else{
                     res.send("not allowed");
                     return;
                 }
 
             }catch (err) {
+                console.log(err);
                 res.status(500).send();
+                return;
             }
         }else{
             res.status(400).send("User does not exisit");
+            return;
         }
     }
 
