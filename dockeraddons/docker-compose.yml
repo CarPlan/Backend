@@ -1,0 +1,23 @@
+version: '3.1'
+
+services:
+  db:
+    image: mariadb
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: change-me
+      MYSQL_DATABASE: Backend
+
+  backend:
+    build: ./..
+    restart: always
+    environment: 
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: change-me
+      DB_NAME: Backend
+    links:
+      - db:db
+    ports:
+      - 3001:3001

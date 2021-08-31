@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require("dotenv");
 
 dotenv.config({path: ".env-local"});
+dotenv.config({path: ".env"});
 
 
 const port =  process.env.PORT || 3001;

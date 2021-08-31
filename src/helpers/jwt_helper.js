@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken');
 
 function authenticateToke(req, res, next) {
     const authHeader = req.headers['authorization'];
-    console.log(authHeader);
     if(authHeader != null){
+        
         const token = authHeader.split(' ')[1];
         if(token == null){
             res.sendStatus(401);
@@ -11,15 +11,19 @@ function authenticateToke(req, res, next) {
         }
 
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-            if(err)
+            if(err){
                 res.sendStatus(403);
+                return;
+            }
             req.user = user;
             next();
             return;
         });
     }
-
+    else{
     res.sendStatus(403);
+    return;
+    }
 }
 
 module.exports = authenticateToke;
