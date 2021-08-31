@@ -21,21 +21,19 @@ app.get('/', (req, res) => {
   res.status(200).send('We are running');
 });
 
-const userRouter = require("./routes/user");
+const publicRouts = require("./routes/public");
+const testRouts = require('./routes/test'); 
+const userRouts = require('./routes/user');
 
 const JWT_HELPER = require('./helpers/jwt_helper'); 
-const Test = require('./routes/test'); 
 
-app.use("/api", userRouter);
+app.use("/user", publicRouts);
 
-app.use("/test", JWT_HELPER, Test);
+app.use("/api/user", JWT_HELPER, userRouts);
 
-app.get('/api/user', (req, res) => {
-    console.log(req.body);
-    res.json({
-        status:'succsess'
-    });
-});
+if(process.env.DEBUG)
+  app.use("/test", JWT_HELPER, testRouts);
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

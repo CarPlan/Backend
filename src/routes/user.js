@@ -1,80 +1,69 @@
 const express = require("express");
-const pool = require("../helpers/database");
-const router = express.Router();    
-const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
+const getPermission = require("./../helpers/permission");
+const pool = require("./../helpers/database");
 
-router.post("/user/get", async (req, res) => {
-    if(req.body.name != null){
-        const querry = "SELECT id, email, password, created_at FROM user WHERE name=?";
-        const rows = await pool.query(querry, req.body.name);
-        if(rows != ""){
-            try
-            {
-                if(await bcrypt.compare(req.body.password, rows[0].password)){
-                    
-                    const user = {
-                        name : req.body.name
-                    };
-                    const access = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+const router = express.Router();
 
-                    res.status(200).json({accessToke : access});
-                    return;
-                }else{
-                    res.send("not allowed");
-                    return;
-                }
 
-            }catch (err) {
-                console.log(err);
-                res.status(500).send();
-                return;
-            }
-        }else{
-            res.status(400).send("User does not exisit");
-            return;
-        }
-    }else if(req.body.email != null){
-        const querry = "SELECT id, email, password, created_at FROM user WHERE email=?";
-        const rows = await pool.query(querry, req.body.email);
-        if(rows != ""){
-            try
-            {
-                if(await bcrypt.compare(req.body.password, rows[0].password)){
-                    const user = {
-                        name : rows[0].name
-                    };
-                    const access = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+router.patch("/update/permissions", async (req, res) => {
 
-                    res.status(200).json({accessToke : access});
-                    return;
-                }else{
-                    res.send("not allowed");
-                    return;
-                }
+    const permission = await getPermission(req.user);
 
-            }catch (err) {
-                console.log(err);
-                res.status(500).send();
-                return;
-            }
-        }else{
-            res.status(400).send("User does not exisit");
-            return;
-        }
+    if(permission == null || !permission.includes('A')){
+        res.sendStatus(403);
+        return;
     }
 
-    res.status(400).send("Invalide");
+    if(req.body.permissions == null){
+        res.sendStatus(400);
+        return;
+    }
+
+    let permissions = "";
+    req.body.permissions.forEach(current => {
+        permissions += current + ",";
+    });
+
+    if(permissions == ""){
+        res.sendStatus(400);
+        return;
+    }
+
+    permissions = permissions.substring(0, permissions.length  - 1)
+
+    if(req.body.name != null){
+        const query = "UPDATE `user` SET permission=? WHERE name=?;"
+        pool.query(query, [permissions, req.body.name]);
+        res.sendStatus(200);
+        return;
+    }
+
+    if(req.body.email != null){
+        const query = "UPDATE `user` SET permission=? WHERE email=?;"
+        pool.query(query, [permissions, req.body.email]);
+        res.sendStatus(200);
+        return;
+    }
+
+    res.sendStatus(400);
 });
 
-router.post("/user/create", async (req, res) => {
+router.post("/create", async (req, res) => {
+
+    const permission = await getPermission(req.user);
+
+    if(permission == null || !permission.includes('A')){
+        res.sendStatus(403);
+        return;
+    }
+
     try{
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
 
-        const querry = "INSERT INTO `user` (email, password, name) VALUES(?, ?, ?)";
+        const query = "INSERT INTO `user` (email, password, name) VALUES(?, ?, ?)";
 
-        pool.query(querry,[req.body.email, hashedPassword, req.body.name]);
+        pool.query(query,[req.body.email, hashedPassword, req.body.name]);
         res.status(200).send();
     }catch (err) {
         res.status(500).send();
