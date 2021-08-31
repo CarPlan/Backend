@@ -47,4 +47,5 @@ docker-compose up -d --build
 
 ## NOTES
 
-1. To get access to the test routs add DEBUG=true to the environment vars
+1. To get access to the test routs add DEBUG=1 to the environment vars
+2. To get access to the admin user (name: admin, password: 1234) enable the debug flag
