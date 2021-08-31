@@ -21,7 +21,7 @@ router.post("/login", async (req, res) => {
                     res.status(200).json({accessToke : access});
                     return;
                 }else{
-                    res.send("not allowed");
+                    res.sendStatus(403);
                     return;
                 }
 
@@ -49,7 +49,7 @@ router.post("/login", async (req, res) => {
                     res.status(200).json({accessToke : access});
                     return;
                 }else{
-                    res.send("not allowed");
+                    res.sendStatus(403);
                     return;
                 }
 
