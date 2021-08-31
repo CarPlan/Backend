@@ -31,7 +31,7 @@ app.use("/user", publicRouts);
 
 app.use("/api/user", JWT_HELPER, userRouts);
 
-if(process.env.DEBUG)
+if(process.env.DEBUG == 1)
   app.use("/test", JWT_HELPER, testRouts);
 
 

@@ -17,6 +17,7 @@ services:
       DB_USER: root
       DB_PASS: change-me
       DB_NAME: Backend
+      DEBUG: 1 # Remove this in production!
     links:
       - db:db
     ports:
