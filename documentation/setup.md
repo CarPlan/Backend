@@ -25,6 +25,12 @@ cd ./dockeraddons
 docker-compose up -d
 ```
 
+4. Call the setup
+
+``` bash
+docker exec dockeraddons_backend_1 node ./setup/init.js
+```
+
 ## Developing
 
 To rebuild the app delete the old containers.
@@ -38,3 +44,7 @@ And then start the containers agin with a forced rebuild.
 ``` bash
 docker-compose up -d --build
 ```
+
+## NOTES
+
+1. To get access to the test routs add DEBUG=true to the environment vars
