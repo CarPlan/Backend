@@ -25,14 +25,14 @@ const publicRouts = require("./routes/public");
 const testRouts = require('./routes/test'); 
 const userRouts = require('./routes/user');
 
-const JWT_HELPER = require('./helpers/jwt_helper'); 
+const jwtMiddleware = require('./helpers/jwt_middleware'); 
 
 app.use("/user", publicRouts);
 
-app.use("/api/user", JWT_HELPER, userRouts);
+app.use("/api/user", jwtMiddleware, userRouts);
 
 if(process.env.DEBUG == 1)
-  app.use("/test", JWT_HELPER, testRouts);
+  app.use("/test", jwtMiddleware, testRouts);
 
 
 app.listen(port, () => {
