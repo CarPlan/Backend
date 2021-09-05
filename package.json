@@ -22,9 +22,14 @@
   "homepage": "https://github.com/CarPlan/Backend#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "connect-redis": "^6.0.0",
+    "connect-session-knex": "^2.1.0",
+    "cookie-parser": "^1.4.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "mariadb": "^2.5.4"
+    "express-session": "^1.17.2",
+    "mariadb": "^2.5.4",
+    "redis": "^3.1.2",
+    "redis-json": "^6.0.1"
   }
 }

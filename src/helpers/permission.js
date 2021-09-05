@@ -1,15 +1,14 @@
 const pool = require("./database");
+const {getUserFrom} = require("./user");
 
-async function getPermission(user){
+async function getPermission(id){
 
-    const query = "SELECT permission FROM user WHERE name=?";
+    const user = await getUserFrom(id);
 
-    const rows = await pool.query(query, user.name);
-
-    if(rows == null || rows[0] == null ||rows[0].permission == null)
-        return null;
+    if(user == null)
+        return
     
-    return rows[0].permission.split(",");
+    return user.permission.split(",");
     
 }
 

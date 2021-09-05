@@ -1,13 +1,14 @@
 const express = require("express");
 const getPermission = require("./../helpers/permission");
 const pool = require("./../helpers/database");
+const { updateUser } = require("../helpers/user");
 
 const router = express.Router();
 
 
 router.patch("/update/permissions", async (req, res) => {
 
-    const permission = await getPermission(req.user);
+    const permission = await getPermission(req.user.id);
 
     if(permission == null || !permission.includes('A')){
         res.sendStatus(403);
@@ -34,13 +35,15 @@ router.patch("/update/permissions", async (req, res) => {
     if(req.body.name != null){
         const query = "UPDATE `user` SET permission=? WHERE name=?;"
         pool.query(query, [permissions, req.body.name]);
+        updateUser(req.user.id);
         res.sendStatus(200);
         return;
     }
 
     if(req.body.email != null){
         const query = "UPDATE `user` SET permission=? WHERE email=?;"
-        pool.query(query, [permissions, req.body.email]);
+        pool.query(query, [permissions, req.body.email]);      
+        updateUser(req.user.id);
         res.sendStatus(200);
         return;
     }
@@ -50,7 +53,7 @@ router.patch("/update/permissions", async (req, res) => {
 
 router.post("/create", async (req, res) => {
 
-    const permission = await getPermission(req.user);
+    const permission = await getPermission(req.user.id);
 
     if(permission == null || !permission.includes('A')){
         res.sendStatus(403);

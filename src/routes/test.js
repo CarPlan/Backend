@@ -1,4 +1,5 @@
 const express = require("express");
+const { getUserFrom } = require("../helpers/user");
 const getPermission = require('./../helpers/permission');
 
 const router = express.Router();  
@@ -19,8 +20,8 @@ router.get("/permission", async (req, res) => {
     }
 
     else {
-        const permissions = await getPermission(req.user);
-        res.status(200).send(permissions == null ? "none" : permissions);
+        const permission = await getPermission(req.user.id)
+        res.status(200).send(permission == null ? "none" : permission);
     }
 });
 
