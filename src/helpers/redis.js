@@ -1,7 +1,7 @@
 const redis = require("redis");
 const { promisify } = require("util");
 
-const redisClient = redis.createClient(process.env.REDIS_PORT || 6379);
+const redisClient = redis.createClient(process.env.REDIS_PORT || 6379, process.env.REDIS_HOST || "localhost");
 const getAsync = promisify(redisClient.get).bind(redisClient);
 
 function cacheUser(user){

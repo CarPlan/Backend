@@ -8,6 +8,11 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: change-me
       MYSQL_DATABASE: Backend
+  
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
 
   backend:
     build: ./..
@@ -17,8 +22,10 @@ services:
       DB_USER: root
       DB_PASS: change-me
       DB_NAME: Backend
+      REDIS_HOST: redis
       DEBUG: 1 # Remove this in production!
     links:
       - db:db
+      - redis:redis
     ports:
       - 3001:3001
